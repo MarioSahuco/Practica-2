@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechVision - Acceder</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="auth-page">
+    
+    <!-- NAV -->
+    <nav class="auth-nav" style="padding: 1rem; text-align: left;">
+        <a href="index.html" class="btn btn-secondary"><i class="fas fa-home"></i> Inicio</a>
+    </nav>
+
+    <div class="auth-card">
+        <h2>Acceder a TechVision</h2>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <i class="form-icon fas fa-envelope"></i>
+                <input type="email" class="form-control" placeholder="Correo Electrónico (Usuario)" id="login-email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Introduce un formato de correo electrónico válido (ej: usuario@dominio.com).">
+            </div>
+            <div class="form-group">
+                <i class="form-icon fas fa-lock"></i>
+                <input type="password" class="form-control" placeholder="Contraseña" id="login-password" required>
+                <button type="button" class="password-toggle" onclick="togglePasswordVisibility('login-password')">
+                    <i class="fas fa-eye-slash" id="toggle-icon-login-password"></i>
+                </button>
+            </div>
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            <a href="register.html" class="auth-link">¿No tienes cuenta? Regístrate aquí</a>
+        </form>
+    </div>
+
+    <script type="module">
+        // --- FIREBASE ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+        import { getFirestore, persistentLocalCache, persistentSingleTabManager } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBqhc6sg9iCNBuWrFZ5LeHHCvoSjCyBEI4",
+            authDomain: "practica2-8563e.firebaseapp.com",
+            projectId: "practica2-8563e",
+            storageBucket: "practica2-8563e.firebasestorage.app",
+            messagingSenderId: "273068286412",
+            appId: "1:273068286412:web:354231598d8e52e17abd69",
+            measurementId: "G-5VKBL8PHHH"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentSingleTabManager() }) });
+
+        // --- FUNCIONES ---
+        window.handleLogin = async function(event) {
+            event.preventDefault();
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log("Usuario logueado:", userCredential.user);
+                alert("Inicio de sesión correcto!");
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                alert("Error al iniciar sesión: " + error.message);
+            }
+        };
+
+        window.togglePasswordVisibility = function(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById("toggle-icon-" + inputId);
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.replace("fa-eye-slash", "fa-eye");
+            } else {
+                input.type = "password";
+                icon.classList.replace("fa-eye", "fa-eye-slash");
+            }
+        };
+    </script>
+</body>
+
+</body>
+</html>
