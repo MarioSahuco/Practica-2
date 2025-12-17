@@ -17,7 +17,7 @@ El diseño es **responsive**, accesible y utiliza fuentes modernas y Font Awesom
 
 ## 🌐 Visitar la página web
 
-[![Abrir TechVision](https://img.shields.io/badge/Visitar%20TechVision-Web-blue?style=for-the-badge)](https://marioskky.github.io/Practica-2/)
+[![Abrir TechVision](https://img.shields.io/badge/Visitar%20TechVision-Web-blue?style=for-the-badge)](https://marioskky.github.io/Practica-2/) 
 
 ## 🛠️ Tecnologías utilizadas
 
